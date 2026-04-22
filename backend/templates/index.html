@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> TheForbiddenFortress | The Proxy Maze </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .cyber-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .cyber-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <nav class="bg-slate-900 border-b border-slate-700 py-4">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-400 tracking-wider">TheForbidden<span class="text-white">Fortress</span></h1>
+            <a href="https://writeup-db.com" target="_blank" class="text-sm font-semibold text-slate-300 hover:text-white transition">WriteupDB Academy</a>
+        </div>
+    </nav>
+
+    <header class="py-12 px-4 max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">The Proxy Maze</h2>
+        <p class="text-lg text-slate-400 mb-6">
+            A deliberately vulnerable architecture designed to test the 403Override NG Burp Suite Extension. 
+            Navigate the discrepancies between Nginx front-end proxies and Flask back-end servers to capture the flags.
+        </p>
+        <div class="inline-block bg-slate-800 text-sm py-2 px-4 rounded-lg border border-slate-700 text-slate-300">
+            <strong>Goal:</strong> Extract the <code class="text-green-400">WriteupDB{...}</code> flag from each restricted endpoint below.
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 pb-12 w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 1: The Localhost Trust</h3>
+                    <span class="bg-blue-900/50 text-blue-400 text-xs font-bold px-2 py-1 rounded">Phase 1</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">The backend exclusively trusts traffic originating from a local IP address.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /api/v1/admin
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Experiment with IP spoofing headers.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 2: The Trailing Illusion</h3>
+                    <span class="bg-purple-900/50 text-purple-400 text-xs font-bold px-2 py-1 rounded">Phase 2</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">The proxy is enforcing a strict exact-match rule that forgets about path variations.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /metrics
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: How does the backend handle trailing slashes?</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 3: Proxy Confusion</h3>
+                    <span class="bg-amber-900/50 text-amber-400 text-xs font-bold px-2 py-1 rounded">Phase 3</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">Exploit how different systems parse directory boundaries and Matrix variables.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /api/internal/users
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Inject traversal sequences and semicolons.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 4: The Lazy Filter</h3>
+                    <span class="bg-emerald-900/50 text-emerald-400 text-xs font-bold px-2 py-1 rounded">Phase 4</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">The WAF regex was written hastily. The backend, however, is case-insensitive.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /secret-vault
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Alter the structural integrity of the URL case.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 5: Method Tampering</h3>
+                    <span class="bg-slate-700 text-slate-300 text-xs font-bold px-2 py-1 rounded">Default</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">The security team blocked GET requests but forgot about alternative HTTP verbs.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /debug/logs
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Check the "Methods to Test" config.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl border border-red-900/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">TRAP</div>
+                <div class="flex justify-between items-start mb-4 mt-2">
+                    <h3 class="text-xl font-bold text-white">Ch 6: The Dynamic Trap</h3>
+                    <span class="bg-rose-900/50 text-rose-400 text-xs font-bold px-2 py-1 rounded">Regex Config</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">This endpoint has a dynamically changing timestamp that causes false positives.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /forbidden
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Set a Regex pattern to ignore the timestamp.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 7: The Shifting Sentinel</h3>
+                    <span class="bg-cyan-900/50 text-cyan-400 text-xs font-bold px-2 py-1 rounded">Phase 1 + Regex</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">A combination challenge. Needs IP spoofing to bypass, but a dynamic hash hides the success.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /api/v2/admin
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Configure both headers AND a regex filter.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 8: The Ghost Request</h3>
+                    <span class="bg-indigo-900/50 text-indigo-400 text-xs font-bold px-2 py-1 rounded">Advanced Header</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">The proxy blocks the path completely, but the backend application middleware respects routing override headers.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /system/config
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Target an open page like '/' and rewrite the path via headers.</p>
+            </div>
+
+            <div class="cyber-card p-6 rounded-xl">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-white">Ch 9: Double Encoding Maze</h3>
+                    <span class="bg-fuchsia-900/50 text-fuchsia-400 text-xs font-bold px-2 py-1 rounded">Phase 4</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">The proxy decodes the URL once before checking the rules. The backend decodes it a second time.</p>
+                <div class="bg-slate-950 p-3 rounded text-sm font-mono text-slate-300 mb-3 break-all">
+                    /vault
+                </div>
+                <p class="text-xs text-slate-500 italic">Hint: Use %25 encoding variations in your path.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-slate-500">
+            <p>Practice Lab for 403Override-NG Burp Extension.</p>
+            <p class="mt-2">Author: Touhid</p>
+        </div>
+    </footer>
+
+</body>
+</html>

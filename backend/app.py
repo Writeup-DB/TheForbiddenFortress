@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, render_template
 import time
 import uuid
 import posixpath
@@ -37,6 +37,12 @@ def simulate_backend_quirks():
     # Update the environment so Flask routes based on the mutated path
     request.environ['PATH_INFO'] = path
 
+# ==========================================
+# LANDING PAGE ROUTE
+# ==========================================
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # ==========================================
 # CHALLENGE ROUTES
