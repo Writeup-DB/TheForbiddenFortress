@@ -4,6 +4,9 @@ This intentionally vulnerable environment is designed to demonstrate and test th
 
 Brought to you by [Writeup-DB.com](https://writeup-db.com) & WriteupDB_Academy.
 
+<img width="1297" height="941" alt="image" src="https://github.com/user-attachments/assets/9f9c79c3-5098-4f20-8d83-ae0f7432b030" />
+
+
 ## Quick Start
 
 1. **Prerequisites:** You must have Docker and Docker Compose installed.
